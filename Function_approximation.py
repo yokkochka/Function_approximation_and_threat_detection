@@ -1,34 +1,28 @@
-# Лобаротароная работа 2.3
-# Апроксимация и интерполяция функций
-# Выполнил: Юнусова Ульяна БИБ2206
+# Laboratory Work 2.3
+# Function Approximation and Interpolation
+# Performed by: Ulyana Yunusova BIB2206
 
-# Номера узлов:  1 3 5 7 9 10 13
-# Номер функции: f1(x)
-# Узлы аппроксимации: -5 -4 -3 -2 -1 -0.5 1
-# Значения функции в узлах: 1.38 1.511 1 0.976 0.599 0.192 -0.405
-
+# Node Numbers:  1 3 5 7 9 10 13
+# Function Number: f1(x)
+# Approximation Nodes: -5 -4 -3 -2 -1 -0.5 1
+# Function Values at Nodes: 1.38 1.511 1 0.976 0.599 0.192 -0.405
 
 import tkinter as tk
 from tkinter import*
-import tkmacosx as tkm
 from scipy import interpolate
 import matplotlib.pyplot as plt
 import numpy as np
 import sys
 
 class Aproximator():
-    # Всё приложение развернуто в классе
     def __init__(self):
 
-        # Настройки главного окна
         self.root=Tk()
         self.root.geometry("400x400")
         self.root.resizable(0,0)
         self.root.title("Апроксимация")
         
-        # Разделение главного окна на 3 подокна
         self.frame_up,self.frame_down,self.frame_button_approks=self.create_frames()
-        # Настройки кнопок и полей ввода
         self.text_title,self.label_up,self.text_up,self.label_down,self.text_down = self.create_labeles()
         self.ButtonApproximate=self.create_button_approks()
 
@@ -69,29 +63,21 @@ class Aproximator():
 
     def Approximation(self,flag):
         if(flag==1):
-            # Получение векторов от пользователя
             x,y=self.get_inputs()
             
-            # Линейная апроксимация
             polynomial=np.poly1d(np.polyfit(x,y,1))
             y1=polynomial(x)
             
-            # Квадратичнаяапроксимация
             polynomial=np.poly1d(np.polyfit(x,y,2))
             y2=polynomial(x)
             
-            # Кубическаяапроксимация
             polynomial=np.poly1d(np.polyfit(x,y,3))
             y3=polynomial(x)
             
-            # Построениеграфиков
             buf,chart=plt.subplots()
             
-            # Графики шаблонной и апроксимирующих функций
             chart.plot(x,y,x,y1,x,y2,x,y3)
             
-            # Настройка окна
-            # Добавление надписей, осей и координатной сетки
             chart.legend(['График Шаблонной функции',
                         'График Линейной апроксимации',
                         'График Квадратичной апроксимации',
@@ -99,15 +85,11 @@ class Aproximator():
             chart.set(xlabel='Значения узлов: Xi',ylabel='Значение функции: y=f1(Xi)',title='Апроксимация функции')
             chart.grid()
             
-            #Запуск
             plt.show()
         
         
 
-    # Обработка векторов пользователя
     def get_inputs(self):
-
-        # Получение значений из полей ввода
         
         x,y=self.text_up.get('1.0',END),self.text_down.get('1.0',END)
         x=[float(el)for el in x.split()]  
@@ -115,7 +97,6 @@ class Aproximator():
 
         if((len(x)==0)or(len(y)==0)):
             self.error()
-        # Преобразование строки в массив чисел с плавающей точкой
         return x,y
         
             
